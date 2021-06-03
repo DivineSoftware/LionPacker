@@ -4,7 +4,7 @@ Usage
 ```
 python lionpacker.py -f [executable_path] -d [dependency_folder_path] -i [target_installation_directory] -c -e -upx [upx_path]
 ```
-<img src='screen074610.png'></img>
+<img src='screen074610.png'></img><br />
 <b>Note:</b> not intended for malware, it doesn't even have runpe in order to avoid false av detections and current version drops the executable unencrypted
 ```
 TODO:
