@@ -97,10 +97,10 @@ else:
         exit(1)
 
 #if folder == "":
-        #imports+="import tempfile\ntemp = tempfile.gettempdir()"
+        #imports+="import tempfile\npath = tempfile.gettempdir()"
 
-if "-f" in sys.argv:
-        def get_all_file_paths(directory): #code from tutorialspoint, Im lazy
+if "-d" in sys.argv:
+        def get_all_file_paths(directory):
             file_paths = []
             for root, directories, files in os.walk(directory):
                 for filename in files:
@@ -120,7 +120,7 @@ print('Reading the executable file...')
 executable = readlines(filearg)
 
 if not "-d" in sys.argv:
-	    payload = payload.split("#dependencies")[0]+payload.split("#dependencies")[2]
+	payload = payload.split("#dependencies")[0]+payload.split("#dependencies")[2]
 else:
         payload = payload.replace("{{ archive }}",base64.b64encode(archive).decode()).replace("{{ deps }}",deps)
 
@@ -144,6 +144,6 @@ print('Compiling...')
 PyInstaller.__main__.run(['-F', '--clean', '--onefile', 'payload.py'])
 if upx:
         print('Applying upx...')
-        subprocess.getoutput(f"{upxdir} dist/payload.exe")
+        subprocess.getoutput(f"{upxdir} {os.path.abspath('dist/payload.exe')}")
 
 #haha you expected 'if __name__=="__main__":'
